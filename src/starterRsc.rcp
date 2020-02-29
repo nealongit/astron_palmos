@@ -1,0 +1,385 @@
+// PRC file for PilRC for ASTON
+
+//===========================================================================================================
+// PLEASE READ:
+//
+// The Astron code base was released for the fun and enjoyment of developers.  The Astron game or any game 
+// or application derived from the code base may not be sold for profit without the specific written consent 
+// of the original developer (Neal Coleman, info@ncblast.com).  And I'm not likely to grant that 
+// consent - this code is for fun.  Feel free to use the code and exchange it with other developers. 
+// This boilerplate text must remain with the code.
+//
+//===========================================================================================================
+
+#include "../src/startRSC.h"
+
+
+//-----------------------------------------------------------------------
+// ***** COLOR SPECIFIC ******
+//-----------------------------------------------------------------------
+
+BITMAPCOLOR ID f200 "../rsrc/astron_splash_8bpp.bmp"
+
+ICONFAMILY 
+"../rsrc/astron_icon_1bpp.bmp" "" "" "../rsrc/astron_icon_8bpp.bmp" TRANSPARENCY  255 0 0
+
+SMALLICONFAMILY 
+"../rsrc/astron_iconsm_1bpp.bmp" "" "" "../rsrc/astron_iconsm_8bpp.bmp" TRANSPARENCY  0 255 0
+
+
+//-----------------------------------------------------------------------
+// ***** 1-bit SPECIFIC ******
+//-----------------------------------------------------------------------
+
+BITMAP ID b103 "../rsrc/astron_splash_1bpp.bmp" COMPRESS
+
+// Do NOT use BITMAPCOLOR here -- form will not load on PalmOS 3.0
+BITMAP ID b102 "../rsrc/astron_icon_1bpp.bmp" COMPRESS
+
+
+//-----------------------------------------------------------------------
+//  MISC
+//-----------------------------------------------------------------------
+
+// These seem to get overwritten by coolfg.def -- app/icon name defined in coolfg.def
+APPLICATION ID 1 "NEAL"
+
+// The version is in >>5<< places! (2 are in starter.c:mainGameRecordStructV3 + splash )
+VERSION ID 3 "3.00"
+VERSION "3.00"
+
+
+
+//-----------------------------------------------------------------------
+// MENUs
+//-----------------------------------------------------------------------
+
+// Main playing screen, TITLE from MENUID was removed 
+
+MENU ID mainMenu
+BEGIN
+   PULLDOWN "Game"
+   BEGIN
+      MENUITEM "Settings.."      mainMenuItem1
+      MENUITEM "Should I Register?.."      mainMenuItem3
+      MENUITEM SEPARATOR
+      MENUITEM "Playing Tips.."  mainMenuItem4
+      MENUITEM SEPARATOR
+      MENUITEM "Quit"            mainMenuItem2
+   END
+   PULLDOWN "Greyscale"
+   BEGIN
+      MENUITEM "Tips.."         mainMenuItem7
+      MENUITEM "Theme.."         mainMenuItem5
+      MENUITEM SEPARATOR
+      MENUITEM "Speed Test.."  mainMenuItem6
+   END
+END
+
+MENU ID splashMenu
+BEGIN
+   PULLDOWN "Game"
+   BEGIN
+      MENUITEM "Settings.."      splashMenuItem0
+      MENUITEM "Should I Register?.."      splashMenuItem1
+      MENUITEM SEPARATOR
+      MENUITEM "Playing Tips.."  splashMenuItem4 
+      MENUITEM SEPARATOR
+      MENUITEM "About Astron"    splashMenuItem2
+   END
+END
+
+//-----------------------------------------------------------------------
+//  ALERTS
+//-----------------------------------------------------------------------
+
+ALERT ID aboutAlertId 
+INFORMATION
+BEGIN
+TITLE "About Astron"
+MESSAGE "Astron v3.00\n" \
+       "Copyright (c) 2006\n" \
+       "Neal Coleman\n\n" \
+       "feedback@ncblast.com" 
+BUTTONS "OK"
+END
+
+ALERT ID regOkAlertId
+INFORMATION
+BEGIN
+TITLE "Registration Completed"
+MESSAGE "Thank you, enjoy the game!\n\nPlease save the code in case" \
+         " you ever uninstall/\nreinstall this game."
+BUTTONS "OK"
+END
+
+ALERT ID regNakAlertId
+ERROR
+BEGIN
+TITLE "Registration Incorrect"
+MESSAGE "The code you have entered is not correct.  It is specific" \
+        " to the HotSync ID given when you registered." \
+        "  Please check your spelling."
+BUTTONS "OK"
+END
+
+ALERT ID romIncompatAlertId
+ERROR
+BEGIN
+TITLE "OS Version Incompatible"
+MESSAGE "Astron is not compatible with this OS version. " \
+        "PalmOS 3.0 or greater is required." 
+BUTTONS "OK"
+END
+
+ALERT ID tempRegOkAlertId
+INFORMATION
+BEGIN
+TITLE "Registration OK'd"
+MESSAGE "Thank you for registering!  The temporary registration  " \
+        "code has been accepted (it is good for 10 days)."
+BUTTONS "OK"
+END
+
+// this is near the max length for a alert message
+ALERT ID userNameTooShortAlertId
+INFORMATION
+BEGIN
+TITLE "Alert!"
+MESSAGE "Your HotSync ID must contain at least 2 letters (a-z,A-Z) to successfully register this game."
+BUTTONS "OK"
+END
+
+
+ALERT ID nealErrAlertId
+INFORMATION
+BEGIN
+TITLE "Coder alert"
+MESSAGE "^1 ^2 ^3"
+BUTTONS "OK"
+END
+
+// ^1 ^2 ^3 are replaced by the 3 passed in strings
+ALERT ID nealInfoAlertId
+INFORMATION
+BEGIN
+TITLE "Information"
+MESSAGE "^1 ^2 ^3"
+BUTTONS "OK"
+END
+
+
+//-----------------------------------------------------------------------
+//  FORMS
+//-----------------------------------------------------------------------
+
+// font 2 is large and bold
+// font 1 is small and bold
+// font 0 is small and regular
+
+// modal makes a big menu bar (fills entire x width)
+
+
+FORM ID regScreenForm AT (2 2 156 156)
+MODAL  
+BEGIN
+TITLE "No need to Register"
+   LABEL "Astron is now free!!  Play as long as" AUTOID AT (5 15) FONT 0
+   LABEL "you like, and pass it on to other" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "people." AUTOID AT (5 prevbottom-1) FONT 0
+
+   LABEL "If you're a coder the source code is" AUTOID AT (5 prevbottom+6) FONT 0
+   LABEL "even available.  Visit the Astron" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "homepage:" AUTOID AT (5 prevbottom-1) FONT 0
+
+   LABEL "WWW.NCBLAST.COM" AUTOID AT (CENTER prevbottom+5) FONT 1
+
+   BUTTON "OK" ID genericOkButtonId AT (CENTER 138 30 AUTO)
+END
+
+
+//  ..........................................< end of text
+FORM ID instructionsScreenForm AT (2 2 156 156)
+MODAL  
+BEGIN
+TITLE "Playing Tips"
+   LABEL "Overview:" AUTOID AT (5 18) FONT 1
+   LABEL "Shoot everything that is shooting" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "or aiming at you!  Bonus ships at" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "7500, and then every 10000 after." AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "Earn the Double-Shooter:" AUTOID AT (5 prevbottom+5) FONT 1
+   LABEL "If you have at least one extra life" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "allow yourself to be captured by " AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "the tractor beam.  Next time the " AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "mothership is DIVING, shoot it and" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "grab the two-shot prize. " AUTOID AT (5 prevbottom-1) FONT 0
+
+   BUTTON "OK" ID genericOkButtonId AT (CENTER 141 40 AUTO)
+END
+
+
+FORM ID greyscaleInfoScreenForm AT (2 2 156 156)
+MODAL  
+BEGIN
+TITLE "Astron Greyscale Tips"
+   LABEL "Greyscale shading varies greatly" AUTOID AT (5 16) FONT 0
+   LABEL "between PDAs.  You can tailor the" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "graphics to your liking via the " AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "\"Greyscale->Theme\" menu item." AUTOID AT (5 prevbottom-1) FONT 0
+
+   LABEL "If game play seems to run slowly" AUTOID AT (5 prevbottom+5) FONT 0
+   LABEL "visit the \"Greyscale->Speed Test\"" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "menu item to adjust the setting" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "for your PDA." AUTOID AT (5 prevbottom-1) FONT 0
+
+   LABEL "Enjoy ASTRON!" AUTOID AT (CENTER prevbottom+7) FONT 1
+
+   BUTTON "OK" ID genericOkButtonId AT (CENTER 141 40 AUTO)
+END
+
+
+
+//156 -- normal height
+//138 -- normal bottom button
+
+
+
+
+STRING ID settingsHelpStringId "\n" \
+"CONTROLS: allows you to set the controls left, middle, or right.  \"Middle\" is useful for GameFace .\n\n"\
+"VOLUME: \"Def\"  defaults the volume to your Game Sound setting in the Prefs app.\n\n" \
+"BULLET SIZE: fat bullets are somewhat easier to see in low-light conditions.  Chan"\
+"ging this preference does not change the likelihood of hitting a target. "
+
+STRING ID speedTestHelpStringId "" \
+"After changing the level you must switch to another application (Calculator, etc.), and then "\
+"back to Astron to enable the new setting.\n\nSubsequently, the level is automatically used when "\
+"Astron is started."
+
+
+//PUSHBUTTON "Dot" ID dotpBut AT (PrevRight+1 PrevTop 21 PrevHeight) GROUP bulletSizeGroup
+
+//FORM ID optionsScreenForm AT (0 0 160 160)
+
+// PrevBottom+10
+
+FORM ID optionsScreenForm AT (2 2 156 156)
+MODAL  
+HELPID settingsHelpStringId
+BEGIN
+TITLE "Settings"
+
+   LABEL "Controls:" AUTOID AT (5 25) FONT 0
+   PUSHBUTTON "Left"    ID ltSidepBut AT (68 PrevTop 25 12) GROUP sideGroup
+   PUSHBUTTON "Middle"  ID midSidepBut AT (PrevRight+1 PrevTop 31 12) GROUP sideGroup
+   PUSHBUTTON "Right"   ID rtSidepBut AT (PrevRight+1 PrevTop 25 PrevHeight) GROUP sideGroup
+
+   LABEL "Volume:" AUTOID AT (5 PrevBottom+10) FONT 0
+   PUSHBUTTON "Off" ID volOffpBut AT (68 PrevTop 20 12) GROUP volGroup
+   PUSHBUTTON "L" ID volLpBut AT (PrevRight+1 PrevTop 13 PrevHeight) GROUP volGroup
+   PUSHBUTTON "M" ID volMpBut AT (PrevRight+1 PrevTop 13 PrevHeight) GROUP volGroup
+   PUSHBUTTON "H" ID volHpBut AT (PrevRight+1 PrevTop 13 PrevHeight) GROUP volGroup
+   PUSHBUTTON "Def" ID volDefpBut AT (PrevRight+1 PrevTop 20 PrevHeight) GROUP volGroup
+
+   LABEL "Bullet size:" AUTOID AT (5 PrevBottom+10) FONT 0
+   PUSHBUTTON "Fat"  ID fatpBut AT (68 PrevTop 41 12) GROUP bulletSizeGroup
+   PUSHBUTTON "Slim" ID slimpBut AT (PrevRight+1 PrevTop 41 PrevHeight) GROUP bulletSizeGroup
+
+   LABEL "Allow fire bullet repeat?" AUTOID AT (5 PrevBottom+10) FONT 0
+   CHECKBOX "" ID bulletRepeatBut AT (109 PrevTop 41 12)
+
+   BUTTON "OK" ID genericOkButtonId AT (34 138 40 AUTO)
+   BUTTON "Cancel" ID genericCancelButtonId AT (prevright+10 prevtop prevwidth prevheight)
+
+END
+
+
+
+FORM ID greyscaleOpsScreenForm AT (2 2 156 156)
+MODAL  
+BEGIN
+TITLE "Greyscale Settings"
+
+   LABEL "Change these settings to suit your"  AUTOID AT (5 15) FONT 0
+   LABEL "preference.  Note: your PDA's "      AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "contrast setting will also affect the"   AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "display to some degree."                 AUTOID AT (5 prevbottom-1) FONT 0
+
+   LABEL "Background shade:" AUTOID AT (5 70) FONT 0
+   POPUPTRIGGER "" ID backgroundGreyShadeTrigger AT (86 PrevTop 62 AUTO) LEFTANCHOR
+   LIST "None" "Light" "Medium" "Dark" ID backgroundGreyShadeList AT (PrevLeft PrevTop 52 1) VISIBLEITEMS 4 NONUSABLE
+   POPUPLIST ID backgroundGreyShadeTrigger backgroundGreyShadeList
+
+   LABEL "Greyscale theme:" AUTOID AT (5 85) FONT 0
+   POPUPTRIGGER "" ID greyshadeThemeTrigger AT (86 PrevTop 62 AUTO) LEFTANCHOR
+   LIST "1 (Lightest)" "2" "3" "4 (Default)" "5" "6" "7 (Darkest)" ID greyshadeThemeList AT (PrevLeft PrevTop 52 1) VISIBLEITEMS 7 NONUSABLE
+   POPUPLIST ID greyshadeThemeTrigger greyshadeThemeList
+
+   LABEL "Starfield:" AUTOID AT (5 100) FONT 0
+   POPUPTRIGGER "" ID backgroundStarfieldTrigger AT (86 PrevTop 62 AUTO) LEFTANCHOR
+   LIST "Off" "On" ID backgroundStarfieldList AT (PrevLeft PrevTop 52 1) VISIBLEITEMS 2 NONUSABLE
+   POPUPLIST ID backgroundStarfieldTrigger backgroundStarfieldList
+
+
+   BUTTON "OK" ID genericOkButtonId AT (34 138 40 AUTO)
+   BUTTON "Cancel" ID genericCancelButtonId AT (prevright+10 prevtop prevwidth prevheight)
+
+END
+
+
+FORM ID setPdaCPUForm AT (2 2 156 156)
+MODAL  
+HELPID speedTestHelpStringId
+BEGIN
+TITLE "Device Speed Setting"
+   LABEL "Astron performs a one time test of"   AUTOID AT (5 15) FONT 0
+   LABEL "your PDA's CPU speed upon install-"   AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "ation to determine the level of"      AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "graphic detail your PDA can handle."  AUTOID AT (5 prevbottom-1) FONT 0
+
+   LABEL "If Astron gameplay is running slowly" AUTOID AT (5 prevbottom+4) FONT 0
+   LABEL "it is likely that the level was set" AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "to high.  Use the menu below to " AUTOID AT (5 prevbottom-1) FONT 0
+   LABEL "reduce the setting." AUTOID AT (5 prevbottom-1) FONT 0
+
+   LABEL "Detail level:" AUTOID AT (20 prevbottom+4) FONT 0
+   POPUPTRIGGER "" ID graphicLevelTrigger AT (70 PrevTop 62 AUTO) LEFTANCHOR
+   LIST "Normal" "Highest" ID graphicLevelList AT (PrevLeft PrevTop 52 1) VISIBLEITEMS 2 NONUSABLE
+   POPUPLIST ID graphicLevelTrigger graphicLevelList
+
+   BUTTON "OK" ID genericOkButtonId AT (8 140 25 AUTO)
+   BUTTON "Rerun CPU test (Reset)" ID rerunCpuDetTestButtonId AT (prevright+10 prevtop AUTO prevheight)
+
+END
+
+
+
+
+FORM ID debugScreenForm AT (0 0 160 160)
+BEGIN
+TITLE "db"
+  POPUPTRIGGER "debug" ID debugPopupTrigger AT (10 20 80 AUTO) LEFTANCHOR
+  LIST "kill user" "2 shots" "Goto.. next round" "ADDNUMTIMESPLAYED=60" "~USERIMMUNE" "~HOLDFORMATION" "~DEBUG ON SCREEN" "~AUTOPLAY" "~SKIPINTROWAVES" "~TIMEFRAMES" "~TITLEBAROFF" "~IGNORETRACBEAM" "Determine CPU" "Run collision test" "DEBUGLEVEL=0" "DEBUGLEVEL=func only" "DEBUGLEVEL=all" ID debugPopupList AT (PrevLeft PrevTop 120 1) VISIBLEITEMS 14 NONUSABLE
+  POPUPLIST ID debugPopupTrigger debugPopupList
+
+   BUTTON "Done" ID genericOkButtonId AT (60 40 40 AUTO)
+END
+
+
+
+// removed... BUTTON "START" ID genericOkButtonId AT (CENTER 136 60 16) FONT 1
+FORM ID splashScreenForm AT (0 0 160 160)
+MENUID splashMenu
+BEGIN
+END
+
+
+FORM ID gameScreenForm AT (0 0 160 160)
+MENUID mainMenu
+BEGIN
+END
+
+
+
+
+

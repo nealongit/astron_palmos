@@ -1,0 +1,16 @@
+
+// This is the definition file used by PRC to split the code 
+// values should sync with Makefile
+
+
+// Application name here shows up under Icon
+application { "Astron" NEAL }
+
+// add other attributes -- version, etc.
+
+
+// This app currently has 2 code resources: 
+//  #1 -- all unannotated
+//  #2 -- SEC1 functions (sec1fns)
+//multiple code { "sec1fns" "sec2fns" "sec3fns" "sec4fns" "sec5fns" "sec6fns"}
+multiple code { "sec2fns" "sec4fns"  "sec3fns" "sec1fns" "sec5fns" "sec6fns"}
